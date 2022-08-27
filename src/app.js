@@ -1,5 +1,4 @@
 let celsiusTemperature = null;
-displayForecast();
 
 function formatDate(timestamp) {
   //calculate the date in return with the format "Friday 5:00"
@@ -19,7 +18,8 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
 }
 
-function displayForecast() {
+function displayForecast(response) {
+  console.log(response.data.daily);
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = `<div class="row">`;
   let days = ["Thu", "Fri", "Sat"];
@@ -47,17 +47,16 @@ function displayForecast() {
 }
 
 function getForecast(coordinates) {
-  console.log(coordinates);
   let latitude = coordinates.lat;
-  console.log(latitude);
   let longitude = coordinates.lon;
-  console.log(longitude);
-  let apiKey = "820f87f35ac7df288b102b51b47b967b";
-  let apiUrlForecast = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-
+  //let apiKey = "820f87f35ac7df288b102b51b47b967b"; Kate Apikey
+  let apiKey = "a43564c91a6c605aeb564c9ed02e3858"; //Joas's ley from help from Slack. Thank you!
+  //let apiUrlForecast = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+  // запрос Выше к ежедневному почасовому прогнозу https://openweathermap.org/forecast5
+  let apiUrlForecast = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
   //let apiUrlForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
   //axios.get(apiUrlForecast).then(displayForecast);
-  console.log(apiUrlForecast);
+  axios.get(apiUrlForecast).then(displayForecast);
 }
 
 function displayTemperature(response) {
